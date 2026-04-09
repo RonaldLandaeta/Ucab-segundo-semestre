@@ -1,0 +1,32 @@
+Funcion CalcularSecuenciaA(n) -> resul_a  
+	Definir result_a Como Entero
+    // Caso base
+    Si n = 0 Entonces
+        result_a =  0
+		// Caso recursivo
+    Sino
+        // Llamada indirecta a la función B
+        result_a =  n - CalcularSecuenciaB(CalcularSecuenciaA(n-1))
+    FinSi
+FinFuncion
+
+Funcion CalcularSecuenciaB(n) -> result_b
+    Definir result_b Como Entero
+	// Caso base
+    Si n = 0 Entonces
+        result_b =  1
+		// Caso recursivo
+    Sino
+        // Llamada indirecta a la funci�n A
+        result_b = n - CalcularSecuenciaA(CalcularSecuenciaB(n-1))
+    FinSi
+FinFuncion
+
+Algoritmo ejemplo_3
+	// Hofstadter
+	Definir n, i como Entero
+	n = 5
+    Para i = 0 Hasta n-1 Hacer
+        Escribir "Secuencia(", i, "): ", CalcularSecuenciaA(i)
+    FinPara
+FinAlgoritmo

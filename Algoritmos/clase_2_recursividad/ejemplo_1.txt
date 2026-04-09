@@ -1,0 +1,20 @@
+Funcion factorial(n) -> resultado
+	Definir resultado como Entero
+	// Paso 1: caso base
+	Si n = 0 O n = 1 Entonces
+		resultado = 1		
+		// Paso 2: recursivo
+	SiNo
+		// PAso 3: llamada recursiva
+		resultado = n * factorial(n-1)
+	FinSi
+FinFuncion
+
+Algoritmo ejemplo_1
+	Definir n, resultado Como Entero
+	
+	n = 5
+	resultado = factorial(n)
+	Escribir "5! es igual a ", resultado
+	
+FinAlgoritmo

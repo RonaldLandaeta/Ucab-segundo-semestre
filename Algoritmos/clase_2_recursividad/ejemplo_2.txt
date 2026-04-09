@@ -1,0 +1,19 @@
+Funcion resultado <- CalcularFibonacci(n)
+	Definir resultado Como Entero
+    // Caso base
+    Si n <= 1 Entonces
+        resultado = n
+		// Caso recursivo
+    Sino
+        // Llamadas recursivas
+        resultado =  CalcularFibonacci(n-1) + CalcularFibonacci(n-2)
+    FinSi
+FinFuncion
+
+Algoritmo ejemplo_2
+	Definir n, i como Entero
+	n = 10
+	Para i <- 0 Hasta n-1 Hacer
+        Escribir "Fibonacci(", i, "): ", CalcularFibonacci(i)
+    FinPara
+FinAlgoritmo

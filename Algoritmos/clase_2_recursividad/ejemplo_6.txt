@@ -1,0 +1,10 @@
+funcion hanoi(n: entero, source: Entero, dest: Entero, temp: Entero)
+    Si n == 1
+        Escribe("mueve un disco de ", source, " a ", dest)
+    Sino
+        hanoi(n-1, source, temp, dest)
+        Escribe("mueve un disco de", source, " a ", dest)
+        hanoi(n-1, temp, dest, source)
+    FinSi
+FinFuncion
+

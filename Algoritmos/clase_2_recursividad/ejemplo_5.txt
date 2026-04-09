@@ -1,0 +1,7 @@
+// Calculo de la potencia de un número en forma recursiva
+
+funcion pow(x: entero, y: entero)
+    Si n == 0
+        retorna 1
+    SiNo
+        retorna x * pow(x, n-1)
