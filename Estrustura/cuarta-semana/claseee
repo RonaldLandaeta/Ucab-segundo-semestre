@@ -1,0 +1,42 @@
+bool estacontenida (Nodo *lista1, Nodo *lista2)
+{
+    if (listavacia(lista1)|| lsitavacia(lista2))
+    {
+        cout<<"una de las 2 listas esta vacia"<<endl;
+        return false;
+    }
+    return
+    {
+        Nodo *l2=lista2;
+        while (l2 !=NULL)
+        {
+            Nodo *l1=lsita1;Nodo *comienzo=l2;
+            while(l2 !=NULL && comienzo != nullptr && l1->dato==comienzo->dato)
+            {
+                l1=l1->prox;
+                comienzo=comienzo->prox;
+            }
+            if (l1==nullptr)
+            return true;
+            l2=l2->prox;
+        }
+        return false;
+    }
+}
+main()
+{
+    Nodo *lista1=nullptr;
+    Nodo *lista2=nullptr;
+    llenarlista(Lista1,"Lista 1:");
+    llenarlista(Lista2,"Lista 2:");
+    cout<<"lista 1: "<<endl;
+    mostarlista(lista1);
+    cout<<"lista 2: "<<endl;
+    mostarlista(lista2);
+    if estacontenida(lista1,lista2)
+        cout<<"Lista 1 contenida en lista 2"<<endl;
+    else
+    cout<<"Lista 1 no contenida en lista 2"<<endl;
+    
+    
+}

@@ -1,0 +1,48 @@
+// a partir de una lista simplemente enlazada, elimina todos los elementos que se encuentran fuera de un rango dado por el usuario
+// "||" esto significa "o"
+#include <iostream>
+using namespace std;
+main(){
+    struct nodo{
+        int dato;
+        nodo *prox;
+    };
+    void eliminarfueraderango(nodo *&inicio, int min_rango, int max_rango){
+        nodo actual=inicio, *aeliminar;
+    while (actual != NULL)
+    { if (actual->dato<min_rango || actual->dato>max_rango)
+        {aeliminar=actual
+        eliminar(inicio, aeliminar->dato);
+        }
+    actial=actual->prox 
+    }
+}
+    void llenarlista(nodo *&inicio, string mensaje)
+    { int cantidad;
+    cout<<"indica cantidad de elementos a colocar en: "<<mensaje;
+    cin>>cantidad
+    string((unsigned) time(nullptr));//esto es un inicializador de numeros aleatorios
+    for (int i=o; i<cantidad;i++)
+    {
+        int valor=1 + rand()%50;
+        insertarultimo(inicio,valor);
+    }
+    }
+    main ()
+    {nodo *lista1=NULL; int liminf,limsup;
+        {llenarlista(lista1, "lista 1");
+            cout<<"indica limite indefior del rango: ";
+            cin>>liminf;
+            cout<<"indica limite superior del rango: ";
+            cin>>limsup;
+            cout<<"Contenido de la lista antes de eliminar "<<endl;
+            mostrarlista(lista1);
+            eliminarfueraderango(lista1,liminf,limsup);
+            cout<<"contenido de la lista despues de eliminar: ";
+            if (!listavacia(lista1))// ese "!" es una negacion, si no es lista vacia, muetrala
+                mostrarlista(lista1);
+            else
+            cout<<"Lista quedo vacia"<< endl;
+        }
+    }
+}

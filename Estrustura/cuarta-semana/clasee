@@ -1,0 +1,34 @@
+Dada una lista elimiunar do elementos que se encuentras duplicados en forma consecutiva
+ejemplo: l1={3,3,5,4,4,3,7}
+l1= {3,5,4,3,7}
+
+void eliminar duplicadosConsecutivos (Nodo *inicio)
+{
+    if (listavacia(inicio))||inicio ->prox==NULL)
+    cout<<"error - lista vacia o con un solo elemento"
+    else
+    {
+        Nodo *actual=inicio, *aborrar;
+        while (actual != NULL && actual ->prox -> !=NULL)
+        {
+            if (actual->dato==actual->prox->dato)
+            {
+                aborrar = actual -> prox;
+                actual -> prox=aborrar->prox;
+                delete aborrar;
+            }
+            else
+            actual = actual->prox;
+        }
+    }
+}
+main()
+{
+    Nodo *inicio=NULL;
+    llenarlistaManual(inicio, "Lista: ")
+    cout<<"\n lista original: \n"
+    mostrarlista(inicio)
+    eliminarDuplicadosConsecutivos(inicio);
+    cout<<"Lista despues de eliminar"<<endl;
+    mostrar(inicio);
+}

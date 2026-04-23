@@ -1,0 +1,52 @@
+//Dadas dos listas eliminar los elementos conmunes a ambas listas y decir el toltal de elementos eliminados
+bool existe (nodo *inicio, int valor)
+    {
+        nodo *aux = inicio;
+        while (aux !=NULL)
+            {
+                if (aux->dato == valor)
+                return true;
+                aux=aux->prox;
+            }
+            return false;
+    }
+void eliminarocurrencias(nodo *&inicio, int valor)
+    {
+        while (existe(inicio,valor))
+        {eliminar (inicio,valor);}
+    }
+int eliminarcomunes(nodo *&inicio1, nodo *&inicio2)
+{
+    int contador = 0; nodo *actual= inicio1;
+    while (actual!=NULL)
+    {
+        int valorAbuscar = actual->dato;
+        if (existe(inicio2, valorAbuscar))
+        {
+            contador ++;
+            eliminarocurrencias(inicio1, valorbuscar);
+            elminiarOcurrencias(inicio2, valorbuscar);
+            actual=inicio1;
+        }
+    else
+        actual= actual->prox;
+    }
+    return contador;
+}
+main()
+{
+    Nodo *L1=NULL, *l2= nullptr;
+    llenarlistamanual(l1,"Lista 1: ")
+    llenarlistamanual(l2,"Lista 2: ")
+    cout<<"\n lista 1: ";
+    mostarlista(l1);
+    cout<<"\nLista 2: ";
+    mostrarlista(l2);
+    int total=eliminaciones(l1,l2);
+    cout<<"Total comunes eliminados: "<<total<<endl;
+    cout<<"listas despues de la eliminacion: "<<endl;
+    cout<<"lista 1: "<<endl;
+    mostrarlista(l1);
+    cout<<"Lista 2: "<<endl;
+    mostarlista(l2);
+}

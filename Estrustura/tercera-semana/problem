@@ -1,0 +1,38 @@
+// dadas dos listas liata1 y lista2, generar una tercera lista con dos elementos de L1 que no se encuentre en L2: (A-B)<=>(A-B)u(B-A)
+bool contiene (nodo *inicio, int valor)
+{
+    nodo *aux = inicio;
+    while (aux != NULL)
+    {
+        if (aux->dato==valor)
+            return true;
+        aux = aux -> prox;
+    }
+    return false;
+}
+nodo *elementosdeL1noenL2(nodo *l1, nodo *l2)
+{
+    nodo *l3=NULL;
+    nodo *aux=l1;
+    while (aux != NULL)
+    {
+        if (!contiene(l2,aux->dato))
+        insertarultima(l3,aux->dato);
+        aux=aux->prox;
+    }
+return l3;
+}
+main ()
+{
+    nodo *lista1=nullptr;
+    nodo *lista2=nullptr;
+    llenarlista(lista1,"Lista 1: ");
+    llenarlista(lista2,"Lista 2");
+    cout<<"Lista 1:"<<endl;
+    mostrarlista(lista1);
+    cout<<"Lista 2: "<<endl;
+    mostrarlista(lista2);
+    nodo *lista3=elementosdel1noenl2(lista1,lista2);
+    cout<<"Lista 3"(elementosdel1noenl2)
+
+}
