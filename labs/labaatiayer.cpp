@@ -157,15 +157,15 @@ void mostrarLista(Nodo *inicio)
    }
 int cantidad;
 void llenarlista(Nodo *&inicio, string mensaje)
-    { 
-    cout<<"indica cantidad de elementos a colocar en"<<mensaje;
-    cin>>cantidad;
-    srand((unsigned) time(nullptr));//esto es un inicializador de numeros aleatorios
-    for (int i=0; i<cantidad;i++)
-    {
-        int valor=1 + rand()%10;
-        insertarUltimo(inicio,valor);
-    }
+   { 
+   cout<<"indica cantidad de elementos a colocar en"<<mensaje;
+   cin>>cantidad;
+   srand((unsigned) time(nullptr));//esto es un inicializador de numeros aleatorios
+   for (int i=0; i<cantidad;i++)
+   {
+      int valor=1 + rand()%10;
+      insertarUltimo(inicio,valor);
+   }
 }
 
 main()
