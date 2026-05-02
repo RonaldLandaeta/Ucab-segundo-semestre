@@ -16,5 +16,4 @@ main()
     cout<<"valor final de a"<<a<<endl;//5.0
     cout<<"valor final de b"<<b<<endl;//8.7
     cout<<"valor final de c"<<c<<endl;//41.1
-
 }
