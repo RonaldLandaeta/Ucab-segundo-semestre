@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 using namespace std;
 // Elaborado por Lia Mendoza
 
