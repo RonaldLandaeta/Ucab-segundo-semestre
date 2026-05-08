@@ -128,49 +128,114 @@ void llenarListaAleatoria(Nodo *&inicio, string mensaje)
         insertarUltimo(inicio, valor);
     }
 }
-void ordenarelementos(Nodo *&inicio)
-{   
-    Nodo *menor = inicio;
-    Nodo *cabeza = inicio;
-    Nodo *mover = inicio;
-    mover=mover->prox;
-    while (!listaVacia(inicio))
-    {
-        if (menor->dato > mover->dato)
-        {
-            menor=mover;
-            mover=mover->prox;
-            cout<<"Candela1"<<endl;
-            mostrarLista(inicio);
-        }
-        else
-        {
-            mover=mover->prox;
-            cout<<"Candela2"<<endl;
-            mostrarLista(inicio);
-        }
-        if (menor->dato<cabeza->dato)
-        {
-            int temp = cabeza->dato;
-            cabeza->dato=menor->dato;
-            menor->dato=temp;
-            cout<<"Candela3"<<endl;
-            mostrarLista(inicio);
-        }
-        if (menor->dato>=cabeza->dato)
-        {
-            menor=menor->prox;
-        }
-        
-    }
+// void ordenarelementos(Nodo *&inicio)
+// {   
+//     Nodo *menor = inicio;
+//     Nodo *cabeza = inicio;
+//     Nodo *mover = inicio;
+//     mover=mover->prox;
+//     while (!listaVacia(inicio))
+//     {
+//         if (menor->dato > mover->dato)
+//         {
+//             menor=mover;
+//             mover=mover->prox;
+//             cout<<"Candela1"<<endl;
+//             mostrarLista(inicio);
+//         }
+//         else
+//         {
+//             mover=mover->prox;
+//             cout<<"Candela2"<<endl;
+//             mostrarLista(inicio);
+//         }
+//         if (menor->dato<cabeza->dato)
+//         {
+//             int temp = cabeza->dato;
+//             cabeza->dato=menor->dato;
+//             menor->dato=temp;
+//             cout<<"Candela3"<<endl;
+//             mostrarLista(inicio);
+//         }
+//         if (menor->dato>=cabeza->dato)
+//         {
+//             menor=menor-prox;
+//         }
+//     }
+// }
+// Versión que PERMITE repetir claves
+void insertarOrdenado(Nodo *&inicio, int valor) {
+    Nodo *nuevo = crearNodo(valor);
     
+    // Caso 1: Lista vacía o el valor es menor que el primero
+    if (inicio == NULL || valor < inicio->dato) {
+        nuevo->prox = inicio;
+        inicio = nuevo;
+    } 
+    else {
+        // Caso 2: Buscar la posición correcta en el medio o al final
+        Nodo *mover = inicio;
+        while (mover->prox != NULL && mover->prox->dato < valor) {
+            mover = mover->prox;
+        }
+        nuevo->prox = mover->prox;
+        mover->prox = nuevo;
+    }
+}
+// Versión que NO PERMITE repetir claves
+void insertarOrdenadoSinRepetir(Nodo *&inicio, int valor) {
+    // Primero verificamos si el valor ya existe
+    Nodo *aux = inicio;
+    while (aux != NULL) {
+        if (aux->dato == valor) {
+            cout << "El valor " << valor << " ya existe (No se inserto)." << endl;
+            return; 
+        }
+        aux = aux->prox;
+    }
+
+    // Si no existe, usamos la misma lógica de inserción
+    Nodo *nuevo = crearNodo(valor);
+    if (inicio == NULL || valor < inicio->dato) {
+        nuevo->prox = inicio;
+        inicio = nuevo;
+    } else {
+        Nodo *mover = inicio;
+        while (mover->prox != NULL && mover->prox->dato < valor) {
+            mover = mover->prox;
+        }
+        nuevo->prox = mover->prox;
+        mover->prox = nuevo;
+    }
+}
+void ordenarListaAscendente(Nodo *inicio) {
+    if (inicio == NULL || inicio->prox == NULL) return; // Lista vacía o de un solo elemento
+    bool intercambiado;
+    Nodo *actual;
+    Nodo *ultimoVerificado = NULL;
+    do {
+        intercambiado = false;
+        actual = inicio;
+        while (actual->prox != ultimoVerificado) {
+            // Si el dato actual es mayor al siguiente, se intercambian
+            if (actual->dato > actual->prox->dato) {
+                int temp = actual->dato;
+                actual->dato = actual->prox->dato;
+                actual->prox->dato = temp;
+                intercambiado = true;
+            }
+            actual = actual->prox;
+        }
+        // El último elemento ya quedó en su posición correcta
+        ultimoVerificado = actual;
+    } while (intercambiado); // Se repite hasta que no haya más intercambios
 }
 main ()
 {
     Nodo *inicio = nullptr;
     llenarListaAleatoria(inicio,"l1");
     mostrarLista(inicio);
-    ordenarelementos(inicio);
+    ordenarListaAscendente(inicio);
     mostrarLista(inicio);
 
 }
