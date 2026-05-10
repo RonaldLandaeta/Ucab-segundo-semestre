@@ -159,7 +159,7 @@ void ElimExp(Nodo *p)
 // Se tiene  L1 ={3,44,55,3,4,5,6,3,8} y valor = 3 entonces L1 queda:   L1= {3,44,55,3,4,5,6,8} 
 void eliminarUltimaRepeticion(Nodo *&inicio, int valor)
 {
-    Nodo *mover, *anterior = NULL, *ultimo = NULL;
+    Nodo *mover, *ultimo = NULL;
     if (listaVacia(inicio))
         cout << "Lista esta vacia" << endl;
     else
@@ -171,7 +171,6 @@ void eliminarUltimaRepeticion(Nodo *&inicio, int valor)
             {
                 ultimo = mover;
             }
-            anterior = mover;
             mover = mover->prox;
         }
         if (ultimo == NULL)
@@ -321,7 +320,7 @@ void eliminarMultiplosInmediatos(Nodo *&inicio)
         cout << "Lista esta vacia" << endl;
         return;
     }
-    Nodo *mover = inicio, *anterior = nullptr;
+    Nodo *mover = inicio;
     while (mover != NULL)
     {
         while (mover->prox != NULL && mover->prox->dato % mover->dato == 0)
@@ -331,7 +330,6 @@ void eliminarMultiplosInmediatos(Nodo *&inicio)
             cout << "Eliminando: " << temp->dato << endl;//imprimo el nodo que se va a eliminar
             delete temp;//elimino el nodo múltiplo
         }
-        anterior = mover;
         mover = mover->prox;
     }
 }
@@ -531,7 +529,10 @@ Nodo *buscarElementoPuntero(Nodo *inicio, int valor)
 {
     Nodo *aux = inicio;
     if (listaVacia(inicio))
+    {
         cout << "Lista vacia" << endl;
+        return nullptr;
+    }
     else
     {
         while (aux != NULL)
@@ -560,12 +561,46 @@ Nodo *buscarElementoPuntero(Nodo *inicio, int valor)
 // 1.4.6.2) Dejando sólo la última ocurrencia 
 // 1.4.6) Elimine los valores que se encuentran en las casillas 
 // de posición par.
-
+void eliminarimpar(Nodo *&lista)
+{
+    Nodo *aux=lista->prox;
+    Nodo *anterior=lista;
+    if (lista->dato%2==1)
+    {
+        Nodo *temp=anterior;
+        anterior=aux;
+        aux=aux->prox;
+        lista=anterior;
+        delete temp;
+    }
+    while (anterior->prox!=nullptr)
+    {
+        if (aux->dato%2==1)
+        {
+            Nodo *temp = lista;
+            aux=aux->prox;
+            anterior->prox=aux;
+            delete temp;
+        }
+        else
+        {
+            anterior=aux;
+            aux=aux->prox;
+        }
+    }
+}
+void Eliminarprimos(Nodo *&inicio)
+{
+    Nodo *aux=inicio->prox;
+    //Nodo *anterior=inicio;
+    while (listaVacia(aux)){}
+}
 // 16. Tareas domésticas: Diseña un programa para ayudar a administrar las tareas domésticas, 
 // donde cada tarea tenga un nombre, descripción y estado (pendiente, en progreso, 
 // completada). Implementa procedimientos y/o funciones para agregar nuevas tareas, marcar 
 // tareas como completadas y mostrar todas las tareas pendientes en el hogar. Determina el 
 // porcentaje de tareas completadas, en progreso y pendientes.
+
 // Omarlistas5.cpp 1.5) Voltee la lista de, al menos, dos maneras distintas (no se 
 // permiten estructuras auxiliares). 
 
@@ -584,6 +619,4 @@ Nodo *buscarElementoPuntero(Nodo *inicio, int valor)
 // completada). Implementa procedimientos y/o funciones para agregar nuevas tareas, marcar 
 // tareas como completadas y mostrar todas las tareas pendientes en el hogar. Determina el 
 // porcentaje de tareas completadas, en progreso y pendientes.
-main()
-{
-}
+main(){}
