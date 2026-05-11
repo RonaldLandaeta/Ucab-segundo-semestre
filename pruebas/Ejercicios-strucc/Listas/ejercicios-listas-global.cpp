@@ -589,11 +589,29 @@ void eliminarimpar(Nodo *&lista)
         }
     }
 }
-void Eliminarprimos(Nodo *&inicio)
+int Primo(int x)
 {
-    Nodo *aux=inicio->prox;
-    //Nodo *anterior=inicio;
-    while (listaVacia(aux)){}
+	if (x<2) return 0;
+	for (int i= 2; i<x;i++)
+    {
+		if (x%i==0);
+        return 0;
+	}return 1;
+}
+void eliminarPrimos(Nodo *&inicio)
+{
+    Nodo *anterior=inicio;
+    Nodo *mover=inicio->prox;
+    while (anterior!=nullptr)
+    {
+        if (Primo(anterior->dato)==0)
+        {
+            Nodo *temp=mover;
+            mover=mover->prox;
+            
+        }
+    }
+    
 }
 // 16. Tareas domésticas: Diseña un programa para ayudar a administrar las tareas domésticas, 
 // donde cada tarea tenga un nombre, descripción y estado (pendiente, en progreso, 

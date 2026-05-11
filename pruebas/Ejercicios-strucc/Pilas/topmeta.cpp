@@ -107,6 +107,36 @@ void topmeta(Pila *&pila1)
     cout<<"Tu nueva pila es: ";
     mostrarPila(pila1);
 }
+int Primo(int x)
+{
+	if (x<2) return 0;
+	for (int i= 2; i<x;i++)
+    {
+		if (x%i==0) return 0;
+	}return 1;
+}
+
+void ElimPrimos(Pila *&p){
+	int y;
+	if(!PilaVacia(p)){
+		y= Tope(p)->dato;
+        Desapilar(p);
+		ElimPrimos(p);
+		if(!Primo(y)) Apilar(p,y);
+	}
+}
+
+int Impar(int x){return x%2;}
+
+void ElimImpar(Pila *&p){
+	int y;
+	if(!PilaVacia(p)){
+		y= Tope(p);
+		Desapilar(p);
+		ElimImpar(p);
+		if(!Impar(y))Apilar(p,y);
+	}
+}
 main()
 {
     Pila *pila1=nullptr;

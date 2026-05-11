@@ -92,11 +92,4 @@ main()
     cout << "Contenido de la Pila original: " << endl;
     mostrarPila(pila);
     cout << endl;
-    Desapilar(pila);
-    cout << "Contenido de la Pila despues de desapilar: " << endl;
-    mostrarPila(pila);
-    cout << endl;
-    Apilar(pila, 555);
-    cout << "Contenido de la Pila luego de apilar un elemento: " << endl;
-    mostrarPila(pila);
 }
