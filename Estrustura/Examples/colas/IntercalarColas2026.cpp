@@ -22,7 +22,7 @@ bool ColaVacia(Cola *col)
    return col == NULL;
 }
 
-Cola *PrimeroCola(Cola *col)// es el tope o la direccion de memoria del primer numero de la cola
+Cola *PrimeroCola(Cola *col)
 {
    if (!ColaVacia(col))
       return col;
@@ -30,7 +30,7 @@ Cola *PrimeroCola(Cola *col)// es el tope o la direccion de memoria del primer n
       return nullptr;
 }
 
-void Encolar(Cola *&col, int valor)// insertar ultimo
+void Encolar(Cola *&col, int valor)
 {
    Cola *nuevo = crearCola(valor);
    if (ColaVacia(col))
@@ -64,7 +64,7 @@ void mostrarCola(Cola *&cola)
 
    if (ColaVacia(cola))
    {
-      cout << "La cola esta vacia" << endl;
+      cout << "La cola está vacía" << endl;
    }
    else
    {
@@ -85,10 +85,10 @@ void mostrarCola(Cola *&cola)
    }
 }
 
-void llenarCola(Cola *&col)
+void llenarCola(Cola *&col, string mensaje)
 {
    int cantidad, i, valor;
-   cout << "Indica cantidad de elementos a ser colocados en la Cola: ";
+   cout << "Indica cantidad de elementos a ser colocados en "<<mensaje;
    cin >> cantidad;
    i = 0;
    while (i != cantidad)
@@ -100,34 +100,30 @@ void llenarCola(Cola *&col)
    }
 }
 
-void juntarcolas(Cola *&col1,Cola *&col2,Cola *&col3)
-{
-   while (!ColaVacia(col1) || !ColaVacia(col2))
-   {
-      if (!ColaVacia(col1))
-      {
-         int datoA =PrimeroCola(col1)->dato;
-         Encolar(col3, datoA);
-         Desencolar(col1);
-      }
-      if (!ColaVacia(col2))
-      {
-         int datoB = PrimeroCola(col2)->dato;
-         Encolar(col3, datoB);
-         Desencolar(col2);
-      }
-   }
-   
+
+void IntercalarColas(Cola *c1, Cola *c2, Cola *&resultado) {
+    while (!ColaVacia(c1) || !ColaVacia(c2)) {
+        if (!ColaVacia(c1)) {
+            Encolar(resultado, PrimeroCola(c1)->dato);
+            Desencolar(c1);
+        }
+        if (!ColaVacia(c2)) {
+            Encolar(resultado, PrimeroCola(c2)->dato);
+            Desencolar(c2);
+        }
+    }
 }
+
 main()
 {
-   Cola *col1 = nullptr;
-   Cola *col2 = nullptr;
-   Cola *col3 =nullptr;
-   llenarCola(col1);
-   llenarCola(col2);
-   mostrarCola(col1);
-   mostrarCola(col2);
-   juntarcolas(col1,col2,col3);
-   mostrarCola(col3);
+   Cola *cola1 = NULL, *cola2=NULL, *Resul=NULL;
+   llenarCola(cola1,"Cola 1: ");
+   llenarCola(cola2,"Cola 2: ");
+   cout<<"Contenido de la Cola 1: "<<endl;
+   mostrarCola(cola1);
+   cout<<"Contenido de la Cola 2: "<<endl;
+   mostrarCola(cola2);
+   IntercalarColas(cola1,cola2,Resul);
+   cout<<"Contenido de la Cola intercalada: "<<endl;
+   mostrarCola(Resul);
 }

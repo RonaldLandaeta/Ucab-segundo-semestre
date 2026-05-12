@@ -613,6 +613,75 @@ void eliminarPrimos(Nodo *&inicio)
     }
     
 }
+// 1) Dada una listaA simplemente enlazada que contiene números enteros positivos (sin usar
+// estructuras auxiliares):
+// 1.1 Elimine los números con sólo dígitos impar y deje los números primos al final
+int SoloImpar(int x){
+	for (int i= x; i>0; i/=10){
+		if ((i%10)%2==0)return 0;
+	} return 1;
+}
+int Primos(int x){
+	if (x<2) return 0;
+	for (int i= 2; i<x; i ++){
+		if (x%i== 0) return 0;
+	} return 1;
+}
+void digitosimpares (Nodo *&inicio)
+{
+    Nodo *anterior = inicio;
+    Nodo *mover = inicio->prox;
+    while (mover!=nullptr)
+    {
+        if (SoloImpar(mover->dato)==1)
+        {
+            Nodo *temp = mover;
+            mover=mover->prox;
+            anterior->prox=mover;
+            delete temp;
+        }
+        else
+        {
+            anterior=mover;
+            mover=mover->prox;
+        }
+    }
+    if (SoloImpar(inicio->dato)==1)
+    {
+        Nodo *temp = inicio;
+        inicio = inicio->prox;
+        delete temp;
+    }
+}
+void moverprimos (Nodo *&lista)
+{
+    if (listaVacia(lista))return;
+    Nodo *aux = lista;
+    int contador = 0;
+    while (!listaVacia(aux))
+    {
+        contador++;
+        aux=aux->prox;
+    }
+    aux = lista;
+    while (!listaVacia(aux) && contador>0)
+    {
+        if (Primos(aux->dato)==1)
+        {
+            int temp = aux->dato;
+            aux=aux->prox;
+            eliminar(lista,temp);
+            insertarUltimo(lista,temp);
+        }
+        else
+        {
+            aux=aux->prox;
+        }
+        contador--;
+    }
+    
+}
+
 // 16. Tareas domésticas: Diseña un programa para ayudar a administrar las tareas domésticas, 
 // donde cada tarea tenga un nombre, descripción y estado (pendiente, en progreso, 
 // completada). Implementa procedimientos y/o funciones para agregar nuevas tareas, marcar 
@@ -637,4 +706,12 @@ void eliminarPrimos(Nodo *&inicio)
 // completada). Implementa procedimientos y/o funciones para agregar nuevas tareas, marcar 
 // tareas como completadas y mostrar todas las tareas pendientes en el hogar. Determina el 
 // porcentaje de tareas completadas, en progreso y pendientes.
-main(){}
+main()
+{
+    Nodo *lista = nullptr;
+    llenarListaManual(lista,"l1");
+    mostrarLista(lista);
+    digitosimpares(lista);
+    moverprimos(lista);
+    mostrarLista(lista);
+}
