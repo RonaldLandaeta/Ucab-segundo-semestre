@@ -613,6 +613,130 @@ void eliminarPrimos(Nodo *&inicio)
     }
     
 }
+int SoloImparparte2(int x){
+	for (int i= x; i>0; i/=10){
+		if ((i%10)%2==0)return 0;
+        x/=10;}
+    return 1;}
+void eliminarimpare(Nodo *&inicio)
+{
+    Nodo *mover = inicio->prox;
+    Nodo *anterior=inicio;
+    while (!listaVacia(mover))
+    {
+        if (SoloImparparte2(mover->dato))
+        {
+            Nodo *temp = mover;
+            mover = mover->prox;
+            anterior->prox=mover;
+            delete temp;
+        }
+        else
+        {
+            anterior = mover;
+            mover= mover->prox;
+        }
+        
+    }
+    if (SoloImparparte2(inicio->dato))
+    {
+        Nodo *temp = inicio;
+        inicio=inicio->prox;
+        delete temp;
+    }
+    
+}
+int min2pares (int x)
+{
+    int contador = 0;
+    while (x>0)
+    {
+        if (x%10%2==0)
+        {
+            contador++;
+        }
+        x/=10;
+    }
+    if (contador <=1)return 0;
+    else return 1;
+}
+void eliminarmin2pares (Nodo *&inicio)
+{
+    Nodo *mover = inicio->prox;
+    Nodo *anterior=inicio;
+    while (!listaVacia(mover))
+    {
+        if (min2pares(mover->dato))
+        {
+            Nodo *temp = mover;
+            mover = mover->prox;
+            anterior->prox=mover;
+            delete temp;
+        }
+        else
+        {
+            anterior = mover;
+            mover= mover->prox;
+        }
+        
+    }
+    if (min2pares(inicio->dato))
+    {
+        Nodo *temp = inicio;
+        inicio=inicio->prox;
+        delete temp;
+    }
+    
+}
+int buscarocurrencias( Nodo *inicio, int x)
+{
+    Nodo *mover = inicio;
+    int contador = 0;
+    while (!listaVacia(mover))
+    {
+        if (mover->dato == x)
+        {   
+            contador++;
+        }
+        mover = mover->prox;
+    }
+    return contador;
+}
+void dejarprimeraocurriencia (Nodo *inicio,int x)
+{
+    Nodo *mover = inicio->prox;
+    Nodo *anterior = inicio;
+    while (anterior!=nullptr && anterior->dato!=x)
+    {
+        anterior = mover;
+        mover = mover->prox;
+    }
+    while (mover!= nullptr)
+    {
+        if (mover->dato==x)
+        {
+            Nodo *temp = mover;
+            mover = mover->prox;
+            anterior->prox=mover;
+            delete temp;
+        }
+        else
+        {
+            anterior = mover;
+            mover= mover->prox;
+        }
+    }
+    
+}
+void dejarprimeraocupremiun(Nodo *inicio)
+{
+    Nodo *aux = inicio;
+    while (aux!=nullptr)
+    {
+        dejarprimeraocurriencia(aux,aux->dato);
+        aux=aux->prox;
+    }
+}
 // 1) Dada una listaA simplemente enlazada que contiene números enteros positivos (sin usar
 // estructuras auxiliares):
 // 1.1 Elimine los números con sólo dígitos impar y deje los números primos al final
@@ -681,7 +805,6 @@ void moverprimos (Nodo *&lista)
     }
     
 }
-
 // 16. Tareas domésticas: Diseña un programa para ayudar a administrar las tareas domésticas, 
 // donde cada tarea tenga un nombre, descripción y estado (pendiente, en progreso, 
 // completada). Implementa procedimientos y/o funciones para agregar nuevas tareas, marcar 
@@ -706,12 +829,73 @@ void moverprimos (Nodo *&lista)
 // completada). Implementa procedimientos y/o funciones para agregar nuevas tareas, marcar 
 // tareas como completadas y mostrar todas las tareas pendientes en el hogar. Determina el 
 // porcentaje de tareas completadas, en progreso y pendientes.
+
+// void Elimreps (lista *p){
+// 	if (!(*p) || !((*p)->prox)) return;
+// 	lista *ax= *p, *ax2, *t;
+// 	while (ax){
+// 		ax2= ax->prox;
+// 		while(ax2){
+// 			if (ax2->prox->valor== ax->valor){*t= ax2->prox;
+// 				ax2->prox= t->prox;
+// 				delete t;
+// 			else ax2= ax2->prox;
+// 		} if (ax->prox->valor == ax->valor){
+// 			t= ax->prox; ax->prox= t->prox;
+// 			delete t;}
+// 		ax= ax->prox;
+// 	}
+// }
+// void ElimNocurr (pila **p, int x, int n){
+// 	int y, res= 0;
+// 	if (!(Vacio(*p))){
+// 		y= Tope(*p);
+// 		Desapilar(p);
+// 		res= ElimNocurr(p, x, n);
+// 		if (y== x && res < n) return (res + 1);
+// 		Apilar(p, y);
+// 		return res;
+// 	} return 0;
+// }
+// void ElimTodos (pila **p, int x){
+// 	int y;
+// 	if (!(Vacio(*p))){
+// 		y= Tope (*p);
+// 		Desapilar(p);
+// 		ElimTodos(p, x);
+// 		if (y != x) Apilar(p, y);
+// 	}
+// }
+// void ElimReps (pila **p)
+// 	int y;
+// 	if (!(Vacio(*p))){
+// 		y= Tope(*p);
+// 		Desapilar(p);
+// 		ElimTodos(p, y);
+// 		ElimReps(p);
+// 		Apilar(p,y);
+// 	}
+// }
+// void ElimPosPar(lista *p){
+// 	lista *ax= p, *t;
+// 	while (ax && ax->prox){
+// 		t= ax->prox;
+// 		ax->prox= t->prox;
+// 		delete t;
+// 		ax= ax->prox;
+// 	}
+// }
 main()
 {
     Nodo *lista = nullptr;
     llenarListaManual(lista,"l1");
     mostrarLista(lista);
-    digitosimpares(lista);
-    moverprimos(lista);
+    int c;
+    cout<<"Dime el numeor papi"<<endl;
+    cin>>c;
+    cout<<"El numeor de veces que aparece el numero es"<<endl;
+    dejarprimeraocurriencia(lista,c);
     mostrarLista(lista);
+    
 }
+
