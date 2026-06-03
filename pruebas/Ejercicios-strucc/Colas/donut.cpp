@@ -232,61 +232,142 @@ void remplazar(Cola *&pata,int remplazar,int remplazo)
 // Cola1 = {1,2,3,4,5,6,7,8,9,10} Elemento inicial = 5, Elemento final=9 
 // Cola2 = {11,22,33,44,55,66}  
 // Cola fusionada= {11,22,33,5,6,7,8,9,44,55,66}
+// 1. CORRECCIÓN EN EL DIVISOR:
+// Tu función vaciaba la cola para siempre. Para arreglarlo, usamos una cola auxiliar 
+// que guarde los datos temporalmente y luego los regrese a la "pata" original.
 float divisor_de_colas(Cola *&pata)
 {
     int elementos = 0;
-    Pila *aux=nullptr;
-    while (pata!=nullptr)
+    Cola *copia = nullptr; // <--- Línea nueva para salvar los datos
+    
+    while (pata != nullptr)
     {
-        Apilar(aux,PrimeroCola(pata)->dato);
+        Encolar(copia, PrimeroCola(pata)->dato); // Guardamos copia
         Desencolar(pata);
         elementos++;
     }
-    return elementos/2;
+    
+    // REGRESAR los datos a la cola original para no destruirla
+    while (copia != nullptr) {
+        Encolar(pata, PrimeroCola(copia)->dato);
+        Desencolar(copia);
+    }
+    
+    return elementos / 2;
 }
-void fusionar(Cola *&pata_derecha,Cola *&pata_izquierda,int inicio, int final)
+
+// 2. CORRECCIÓN EN LA EXISTENCIA:
+// Al igual que el divisor, si ibas desencolando para buscar, destruías la cola.
+// Además, eliminamos la pila 'aux' que tenías ahí que no hacía nada y causaba fugas.
+bool confirmar_existencia(Cola *&pata, int valor)
 {
-    Cola
+    Cola *aux = nullptr;
+    bool encontrado = false; // <--- Bandera para avisar si apareció
+    
+    while (pata != nullptr)
+    {
+        if (PrimeroCola(pata)->dato == valor)
+        {
+            encontrado = true; // Lo encontramos, pero NO hacemos return todavía
+        }
+        Encolar(aux, PrimeroCola(pata)->dato); // Salvamos el dato
+        Desencolar(pata);
+    }
+    
+    // REGRESAR los datos a la cola original para dejarla intacta
+    while (aux!= nullptr) {
+        Encolar(pata, PrimeroCola(aux)->dato);
+        Desencolar(aux);
+    }
+    
+    return encontrado; // Ahora sí respondemos si existía o no
 }
-// 4) Dada una cola determinar el valor mínimo de la cola sin perder la cola original. 
-// 5) Implementar una función o procedimiento que combine dos colas ordenadas en una sola cola 
-// ordenada (no  hay  que  aplicar  ningún algoritmo de ordenamiento, sólo a través del recorrido).   
-// Ejemplo: sean C1= {1,2,3,4,4,7} y C2={1,2,5,6,8,8,9} el resultado es:  
-// C3= {1,2,3,4,5,6,7,8,9} 
-// 6) Desarrolla una función que verifique si dos colas son iguales (contienen los mismos elementos en 
-// el mismo orden). 
-// 7)  Un centro de servicio técnico tiene dos colas para que los clientes registren sus computadoras 
-// para reparación. Los clientes deben elegir en cuál formarse según múltiples criterios que optimizan 
-// su tiempo de espera y la eficiencia del centro de servicio. 
-// Cada cliente tiene la siguiente información: - Identificación del cliente - Nombre del Cliente -Tiempo estimado de reparación: Cuánto tiempo tomará reparar su computadora. - Prioridad de atención: Nivel de urgencia del cliente, por ejemplo: 1 para urgencia baja, 2 para 
-// alta. - Categoría del cliente: Puede ser “Cliente Nuevo” o “Cliente Frecuente”. Los clientes frecuentes 
-// tienen prioridad sobre los nuevos si el resto de los criterios son iguales. 
-// Criterios para elegir la cola 
-// Cuando un cliente llega al centro de servicio, debe elegir en cuál de las dos colas formarse, siguiendo 
-// estos criterios de prioridad: 
-// 1. Menor tiempo total de espera acumulado en la cola: El cliente elige la cola donde el tiempo total 
-// estimado de espera para todos los clientes actuales es menor. 
-// 2. Prioridad de atención: Si ambas colas tienen el mismo tiempo de espera total, el cliente debe 
-// elegir la cola donde los clientes de mayor prioridad (urgencia alta) están siendo atendidos más 
-// rápidamente. 
-// 3. Categoría del cliente: Si ambos tiempos de espera y la prioridad son iguales, los clientes 
-// frecuentes (los que han realizado visitas previas) se forman en la cola con mayor cantidad de otros 
-// clientes frecuentes, para recibir beneficios como descuentos o recompensas de fidelidad. 
-// 4. Cantidad de clientes en espera: Si todos los criterios anteriores son iguales, el cliente elige la 
-// cola con menos clientes para reducir la congestión en una sola cola. 
-// 5. Orden aleatorio en caso de igualdad total: Si ambas colas tienen exactamente el mismo tiempo 
-// de espera, prioridad, categoría de cliente y cantidad de clientes, el cliente elige una cola de manera 
-// aleatoria. 
-// Consideraciones adicionales  - Puedes permitir que los clientes cambien de cola si una opción más rápida se hace disponible, o 
-// mantenerlos en la cola original. - Implementa una función para simular el progreso de tiempo y mover clientes en cada cola de 
-// acuerdo con el tiempo estimado de reparación de cada cliente. 
-// Este ejercicio te permitirá implementar una cola dinámica que reaccione a las decisiones de los 
-// // clientes según diferentes criterios, utilizando el TDA COLAS
-//Laboratorio:
-// 1) Desarrolla un procedimiento que permita invertir los N primeros 
-// elementos de una cola. Ejemplo: C={1,2,3,4,5,6,7,8,9} y N = 5 
-// CInverN= {5,4,3,2,1,6,7,8,9} 
-// 2) A partir de una cola de números enteros, generar una nueva cola con los 
-// números pares ubicados al principio de la cola y los impares al final de la 
-// cola. Ejemplo:  C= {33,2,5,4,12,5,7,8,10,20} 
-// Cnueva= {2,4,12,8,10,20,33,5,5,7} 
+
+// 3. FUSIÓN REPARADA (Manteniendo tu estructura de Patatas)
+void fusionar(Cola *&pata_derecha, Cola *&pata_izquierda, int inicio, int final)
+{
+    if (pata_derecha == nullptr || pata_izquierda == nullptr)
+    {
+        cout << "Tan vacias xd" << endl;
+        return; // Añadido para que no continúe si están vacías
+    }
+    
+    cout << "Patata 1" << endl;
+    Cola *colaux = nullptr;
+    Pila *aux = nullptr;
+    Pila *ordenar = nullptr;
+    
+    // Ahora las validaciones funcionan porque confirmar_existencia ya no destruye la cola
+    if (confirmar_existencia(pata_izquierda, inicio) == true && confirmar_existencia(pata_izquierda, final) == true)
+    {
+        // ARREGLO: 'divisor_de_colas' ahora deja la pata_derecha intacta, lista para el siguiente while
+        int mitad_de_pata_derecha = divisor_de_colas(pata_derecha);
+        
+        cout << "Patata 2" << endl;
+        while (pata_derecha != NULL)
+        {
+            Apilar(aux, PrimeroCola(pata_derecha)->dato);
+            Desencolar(pata_derecha);
+            cout << "Patata 3" << endl;
+        }
+        
+        while (aux != NULL)
+        {
+            Apilar(ordenar, Tope(aux)->dato);
+            Desapilar(aux);
+            cout << "Patata 4" << endl;
+        }
+        
+        while (mitad_de_pata_derecha != 0)
+        {
+            Encolar(colaux, Tope(ordenar)->dato);
+            Desapilar(ordenar);
+            mitad_de_pata_derecha--;
+            cout << "Patata 5" << endl;
+        }
+        
+        // ARREGLO: Corregido el '==' por '!=' en el nullptr para evitar que se rompa el programa.
+        // Además cambiamos 'pata_izquierda->dato' por 'PrimeroCola(pata_izquierda)->dato'
+        while (pata_izquierda != nullptr && PrimeroCola(pata_izquierda)->dato != inicio)
+        {
+            Desencolar(pata_izquierda); // Descartamos lo anterior al inicio
+            cout << "Patata 6" << endl;
+        }
+        
+        // ARREGLO: Se añade 'pata_izquierda != nullptr' por seguridad
+        while (pata_izquierda != nullptr && PrimeroCola(pata_izquierda)->dato != final)
+        {
+            Encolar(colaux, PrimeroCola(pata_izquierda)->dato);
+            Desencolar(pata_izquierda);
+            cout << "Patata 7" << endl;
+        }
+        
+        // Metemos el elemento 'final' que faltaba
+        if (pata_izquierda != nullptr) {
+            Encolar(colaux, PrimeroCola(pata_izquierda)->dato);
+            Desencolar(pata_izquierda); // Desencolamos el final también
+            cout << "Patata 8" << endl;
+        }
+        
+        while (ordenar != nullptr)
+        {
+            Encolar(colaux, Tope(ordenar)->dato);
+            Desapilar(ordenar);
+            cout << "Patata 9" << endl;
+        }
+        
+        cout << "Colas fucionadas, El resultado es el siguiente: " << endl;
+        mostrarCola(colaux);
+    }
+    else {
+        cout << "Los elementos a empezar no existen" << endl;
+    }
+}
+main()
+{
+    Cola *pata_izquierda=nullptr;
+    Cola *pata_derecha=nullptr;
+    llenarCola(pata_izquierda);
+    llenarCola(pata_derecha);
+    fusionar(pata_derecha,pata_izquierda,5,9);
+}
