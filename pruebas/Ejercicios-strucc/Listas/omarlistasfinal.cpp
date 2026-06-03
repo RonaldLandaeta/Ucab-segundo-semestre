@@ -119,24 +119,58 @@ void moverXposiciones(Pila *&A,Pila *&B)
 {
     Pila *aux = nullptr;
     int posiciones;
-    while (!PilaVacia(B))
+    int valor;
+    while (!PilaVacia(A))
     {
-        while (!PilaVacia(A))
+        valor=Tope(A)->dato;
+        posiciones=valor-1;
+        while (!posiciones==0 && !PilaVacia(B))
         {
-            posiciones=Tope(A)->dato;
+            Apilar(aux,Tope(B)->dato);
+            Desapilar(B);
             posiciones--;
-            
         }
+        if (!PilaVacia(B))
+        {
+            Apilar(B,valor);
+        }
+        while (!PilaVacia(aux))
+        {
+            Apilar(B,Tope(aux)->dato);
+            Desapilar(aux);
+        }
+        Desapilar(A);
     }
 }
-main ()
+void eliminardivisibles(Pila *&A, Pila *&B)
 {
-    Pila *pila=nullptr;
-    llenarPila(pila);
-    cout<<"Primera pila"<<endl;
-    mostrarPila(pila);
-    cout<<" "<<endl;
-    imparesalfinal(pila);
-    cout<<"Segunda pila"<<endl;
-    mostrarPila(pila);
+    Pila *aux=nullptr;
+    while (!PilaVacia(A))
+    {
+        while (!PilaVacia(B))
+        {
+            int valor = Tope(A)->dato;
+            int divisor = Tope(B)->dato;
+            if (!divisor%valor==0)
+            {Apilar(aux,Tope(B)->dato);}
+            else
+            {cout<<"eliminando multiplo"<<Tope(B)->dato<<endl;}
+            Desapilar(B);
+        }
+        Desapilar(A);
+    }
+    while (!PilaVacia(aux))
+    {
+        Apilar(B,Tope(aux)->dato);
+        Desapilar(aux);
+    }
+    mostrarPila(B);
+}
+main()
+{
+    Pila *pasta=nullptr;
+    Pila *pizza=nullptr;
+    llenarPila(pasta);
+    llenarPila(pizza);
+    eliminardivisibles(pasta,pizza);
 }
