@@ -344,13 +344,155 @@ void fusionar(Cola *&pata_derecha,Cola *&pata_izquierda,int inicio, int final)
     else{cout<<"Los elementos a empezar no existen"<<endl;}
 }
 // 4) Dada una cola determinar el valor mínimo de la cola sin perder la cola original. 
-
+void menor(Cola *&pata) 
+{
+    int menor_actual=PrimeroCola(pata)->dato;
+    Pila *aux=nullptr;
+    Pila *ordenar=nullptr;
+    while (!ColaVacia(pata))
+    {
+        if(menor_actual<PrimeroCola(pata)->dato)
+        {
+            Apilar(aux,PrimeroCola(pata)->dato);
+            Desencolar(pata);
+        }
+        else
+        {
+            menor_actual=PrimeroCola(pata)->dato;
+            Apilar(aux,PrimeroCola(pata)->dato);
+            Desencolar(pata);
+        }
+    }
+    while (!PilaVacia(aux))
+    {
+        Apilar(ordenar,Tope(aux)->dato);
+        Desapilar(aux);
+    }
+    while (!PilaVacia(ordenar))
+    {
+        Encolar(pata,Tope(ordenar)->dato);
+        Desapilar(ordenar);
+    }
+    cout<<"El menor numero es: "<<menor_actual<<endl;
+}
 // 5) Implementar una función o procedimiento que combine dos colas ordenadas en una sola cola 
 // ordenada (no  hay  que  aplicar  ningún algoritmo de ordenamiento, sólo a través del recorrido).   
 // Ejemplo: sean C1= {1,2,3,4,4,7} y C2={1,2,5,6,8,8,9} el resultado es:  
 // C3= {1,2,3,4,5,6,7,8,9} 
+void combinarColas(Cola *&c1, Cola *&c2, Cola *&c3)
+{
+    // Colas auxiliares para respaldar C1 y C2 y no destruirlas
+    Cola *auxC1 = nullptr;
+    Cola *auxC2 = nullptr;
+    // Variable para rastrear el último valor insertado en C3 (para evitar duplicados)
+    // Lo inicializamos con un valor bandera o controlaremos la primera inserción
+    int ultimoInsertado;
+    bool esPrimero = true;
+    // Ciclo principal: Comparamos frentes mientras AMBAS colas tengan elementos
+    while (!ColaVacia(c1) && !ColaVacia(c2))
+    {
+        int val1 = PrimeroCola(c1)->dato;
+        int val2 = PrimeroCola(c2)->dato;
+        int seleccionado;
+        if (val1 < val2)
+        {
+            seleccionado = val1;
+            Encolar(auxC1, val1); // Respaldamos en auxC1
+            Desencolar(c1);       // Avanzamos en c1
+        }
+        else if (val2 < val1)
+        {
+            seleccionado = val2;
+            Encolar(auxC2, val2); // Respaldamos en auxC2
+            Desencolar(c2);       // Avanzamos en c2
+        }
+        else // Si son iguales (val1 == val2)
+        {
+            seleccionado = val1;  // Tomamos cualquiera
+            Encolar(auxC1, val1); // Respaldamos en ambos
+            Encolar(auxC2, val2);
+            Desencolar(c1);       // Avanzamos en ambos para saltar el duplicado
+            Desencolar(c2);
+        }
+        // Insertar en C3 controlando que no se repita con el último insertado
+        if (esPrimero || seleccionado != ultimoInsertado)
+        {
+            Encolar(c3, seleccionado);
+            ultimoInsertado = seleccionado;
+            esPrimero = false;
+        }
+    }
+    // Si C1 aún tiene elementos (porque C2 se vació primero)
+    while (!ColaVacia(c1))
+    {
+        int val = PrimeroCola(c1)->dato;
+        if (esPrimero || val != ultimoInsertado)
+        {
+            Encolar(c3, val);
+            ultimoInsertado = val;
+            esPrimero = false;
+        }
+        Encolar(auxC1, val);
+        Desencolar(c1);
+    }
+    // Si C2 aún tiene elementos (porque C1 se vació primero)
+    while (!ColaVacia(c2))
+    {
+        int val = PrimeroCola(c2)->dato;
+        if (esPrimero || val != ultimoInsertado)
+        {
+            Encolar(c3, val);
+            ultimoInsertado = val;
+            esPrimero = false;
+        }
+        Encolar(auxC2, val);
+        Desencolar(c2);
+    }
+    // --- RESTAURACIÓN DE LAS COLAS ORIGINALES ---
+    // Devolvemos los datos de auxC1 a c1
+    while (!ColaVacia(auxC1))
+    {
+        Encolar(c1, PrimeroCola(auxC1)->dato);
+        Desencolar(auxC1);
+    }
+    // Devolvemos los datos de auxC2 a c2
+    while (!ColaVacia(auxC2))
+    {
+        Encolar(c2, PrimeroCola(auxC2)->dato);
+        Desencolar(auxC2);
+    }
+}
 // 6) Desarrolla una función que verifique si dos colas son iguales (contienen los mismos elementos en 
 // el mismo orden). 
+void confirmar_igualdad(Cola *&pierna,Cola *&brazos)
+{
+    if (ColaVacia(pierna) || ColaVacia(brazos))return;
+    Cola *cola1=nullptr;
+    Cola *cola2=nullptr;
+    while (!ColaVacia(pierna) && !ColaVacia(brazos))
+    {
+        if (PrimeroCola(pierna)->dato==PrimeroCola(brazos)->dato)
+        {
+            Encolar(cola1,PrimeroCola(pierna)->dato);
+            Encolar(cola2,PrimeroCola(brazos)->dato);
+            Desencolar(pierna);
+            Desencolar(brazos);
+        } 
+        else 
+        {
+            cout<<"Las colas no son iguales"<<endl;
+            return;
+        }
+    }
+    if (ColaVacia(pierna) && ColaVacia(brazos))
+    {
+        cout<<"Las colas son iguales con el mismo orden"<<endl;
+    }
+    else
+    {
+        cout<<"Las colas no tiene el mismo largo, tejo xd"<<endl;
+    }
+}
 // 7)  Un centro de servicio técnico tiene dos colas para que los clientes registren sus computadoras 
 // para reparación. Los clientes deben elegir en cuál formarse según múltiples criterios que optimizan 
 // su tiempo de espera y la eficiencia del centro de servicio. 
